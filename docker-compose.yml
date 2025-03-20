@@ -1,0 +1,22 @@
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_PASSWORD: mypassword
+      MYSQL_DATABASE: todos
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+  app:
+    build: .
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    environment:
+      - MYSQL_DATABASE_URL=mysql+pymysql://myuser:mypassword@db:3306/todos
+    volumes:
+      - .:/app
+volumes:
+  mysql_data:
