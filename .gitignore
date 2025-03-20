@@ -82,4 +82,4 @@ fastapi_app/static/
 fastapi_app/templates/
 
 # DB
-mysql/db/
+docker/mysql/db/

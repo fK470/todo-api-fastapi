@@ -2,23 +2,36 @@ services:
   db:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: todo_database
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypass
+    tty: true
     ports:
       - 3306:3306
     volumes:
-      - ./mysql/initdb.d:/docker-entrypoint-initdb.d
-      - ./mysql/db:/var/lib/mysql
+      - ./docker/mysql/initdb.d:/docker-entrypoint-initdb.d
+      - ./docker/mysql/db:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    networks:
+      - local-net
   app:
-    build: .
+    links:
+      - db
+    build: ./docker/api
     ports:
       - 8000:8000
-    depends_on:
-      - db
-    environment:
-      - MYSQL_DATABASE_URL=mysql+pymysql://myuser:mypassword@db:3306/todos
     volumes:
-      - .:/app
-volumes:
-  mysql_data:
+      - ./app:/app
+    networks:
+      - local-net
+    environment:
+      MYSQL_DATABASE: todo_database
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypass
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_HOST: db # This is important
+
+networks:
+  local-net:
+    driver: bridge

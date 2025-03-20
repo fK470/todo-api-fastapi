@@ -8,11 +8,14 @@ CREATE TABLE todos (
   title TEXT NOT NULL,
   description TEXT,
   done BOOLEAN NOT NULL DEFAULT FALSE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO todos (title, description)
 VALUES
   ("title1", "description1"),
   ("title2", "description2"),
-  ("title3", "description3");
+  ("title3", "");
 
+-- CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
+GRANT ALL PRIVILEGES ON todo_database.* TO 'myuser'@'%';
+FLUSH PRIVILEGES;

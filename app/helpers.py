@@ -1,4 +1,4 @@
-from .models import Todo
+from models import Todo
 from typing import List, Optional
 from fastapi import HTTPException
 
