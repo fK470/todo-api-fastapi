@@ -80,3 +80,6 @@ Thumbs.db
 # Fast API specific
 fastapi_app/static/
 fastapi_app/templates/
+
+# DB
+mysql/db/
