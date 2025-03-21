@@ -2,11 +2,8 @@ services:
   db:
     image: mysql:8.0
     environment:
-      MYSQL_DATABASE: todo_database
-      MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_USER: myuser
-      MYSQL_PASSWORD: mypass
-    tty: true
+      MYSQL_DATABASE: 'todo_database'
+      MYSQL_ROOT_PASSWORD: 'roopass'
     ports:
       - 3306:3306
     volumes:
@@ -26,11 +23,9 @@ services:
     networks:
       - local-net
     environment:
-      MYSQL_DATABASE: todo_database
-      MYSQL_USER: myuser
-      MYSQL_PASSWORD: mypass
-      MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_HOST: db # This is important
+      MYSQL_DATABASE: 'todo_database'
+      MYSQL_ROOT_PASSWORD: 'roopass'
+      MYSQL_HOST: db
 
 networks:
   local-net:

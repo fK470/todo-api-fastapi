@@ -1,17 +1,13 @@
-import os
 from collections.abc import Generator
 
-from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, sessionmaker
 
-load_dotenv()
-
-user_name = os.getenv("MYSQL_USER")
-password = os.getenv("MYSQL_ROOT_PASSWORD")
-host = "db"  # docker-composeで定義したMySQLのサービス名
-database_name = os.getenv("MYSQL_DATABASE")
+user_name = "root"
+password = "roopass"
+host = "db"
+database_name = "todo_database"
 
 DATABASE_URL = f"mysql+pymysql://root:{password}@{host}/{database_name}"
 

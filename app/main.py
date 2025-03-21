@@ -37,8 +37,10 @@ async def read_todos(db: Annotated[Session, Depends(get_db)]) -> list[Todo]:
 @app.get("/todos/{todo_id}")
 async def read_todo(todo_id: int, db: Annotated[Session, Depends(get_db)]) -> Todo:
     todo = db.query(TodoTable).filter(TodoTable.id == todo_id).first()
+
     if todo is None:
         raise HTTPException(status_code=404, detail="Todo not found")
+
     return todo
 
 
@@ -46,8 +48,10 @@ async def read_todo(todo_id: int, db: Annotated[Session, Depends(get_db)]) -> To
 async def update_todo(todo_id: int, todo_update: TodoUpdate, db: Annotated[Session, Depends(get_db)]) -> Todo:
     try:
         todo = db.query(TodoTable).filter(TodoTable.id == todo_id).first()
+
         if todo is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Todo not found")
+
         for key, value in todo_update.model_dump(exclude_unset=True).items():
             setattr(todo, key, value)
         db.commit()
@@ -55,6 +59,7 @@ async def update_todo(todo_id: int, todo_update: TodoUpdate, db: Annotated[Sessi
         return todo
     except SQLAlchemyError as e:
         db.rollback()
+
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e)) from e
 
 
@@ -62,8 +67,10 @@ async def update_todo(todo_id: int, todo_update: TodoUpdate, db: Annotated[Sessi
 async def toggle_todo(todo_id: int, todo_toggle: TodoToggle, db: Annotated[Session, Depends(get_db)]) -> Todo:
     try:
         todo = db.query(TodoTable).filter(TodoTable.id == todo_id).first()
+
         if todo is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Todo not found")
+
         todo.done = todo_toggle.done
         db.commit()
         db.refresh(todo)
@@ -76,8 +83,10 @@ async def toggle_todo(todo_id: int, todo_toggle: TodoToggle, db: Annotated[Sessi
 @app.delete("/todos/{todo_id}")
 async def delete_todo(todo_id: int, db: Annotated[Session, Depends(get_db)]) -> dict[str, bool]:
     todo = db.query(TodoTable).filter(TodoTable.id == todo_id).first()
+
     if todo is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Todo not found")
+
     db.delete(todo)
     db.commit()
     return {"ok": True}

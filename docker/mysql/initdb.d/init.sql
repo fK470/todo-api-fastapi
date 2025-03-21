@@ -15,7 +15,3 @@ VALUES
   ("title1", "description1"),
   ("title2", "description2"),
   ("title3", "");
-
--- CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
-GRANT ALL PRIVILEGES ON todo_database.* TO 'myuser'@'%';
-FLUSH PRIVILEGES;

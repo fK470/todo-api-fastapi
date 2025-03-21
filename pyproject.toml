@@ -39,5 +39,6 @@ ignore = [
     "ISC", #flake8-implicit-str-concat
     "N", # pep8-naming
     "PT", # flake8-pytest-style
+    "UP007", # X | Y typing
 ]
 line-length = 120 # １行の最大文字数

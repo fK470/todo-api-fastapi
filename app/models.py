@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Optional
+
 from database import Base
 from pydantic import BaseModel
 from sqlalchemy import Boolean, Column, Integer, Text
@@ -15,10 +17,10 @@ class TodoTable(Base):
 
 class TodoCreate(BaseModel):
     title: str
-    description: str | None = None
+    description: Optional[str] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Todo(TodoCreate):
@@ -30,11 +32,11 @@ class TodoToggle(BaseModel):
     done: bool
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class TodoUpdate(BaseModel):
-    title: str | None = None
+    title: Optional[str] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
