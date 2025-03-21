@@ -1,12 +1,12 @@
-from typing import Optional
-from sqlalchemy import Column, Integer, Text, Boolean
-from database import Base, ENGINE
+from __future__ import annotations
 
+from database import Base
 from pydantic import BaseModel
+from sqlalchemy import Boolean, Column, Integer, Text
 
 
 class TodoTable(Base):
-    __tablename__ = 'todos'
+    __tablename__ = "todos"
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(Text, nullable=False)
     description = Column(Text, nullable=True)
@@ -15,7 +15,7 @@ class TodoTable(Base):
 
 class TodoCreate(BaseModel):
     title: str
-    description: Optional[str] = None
+    description: str | None = None
 
     class Config:
         orm_mode = True
@@ -26,9 +26,15 @@ class Todo(TodoCreate):
     done: bool = False
 
 
-# def main():
-#     Base.metadata.create_all(bind=ENGINE)
+class TodoToggle(BaseModel):
+    done: bool
+
+    class Config:
+        orm_mode = True
 
 
-# if __name__ == "__main__":
-#     main()
+class TodoUpdate(BaseModel):
+    title: str | None = None
+
+    class Config:
+        orm_mode = True

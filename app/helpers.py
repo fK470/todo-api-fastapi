@@ -1,16 +1,17 @@
-from models import Todo
-from typing import List, Optional
+from __future__ import annotations
+
 from fastapi import HTTPException
+from models import Todo
 
 
-def find_todo_index(todos: List[Todo], todo_id: int) -> int:
+def find_todo_index(todos: list[Todo], todo_id: int) -> int:
     for index, todo in enumerate(todos):
         if todo.id == todo_id:
             return index
     raise HTTPException(status_code=404, detail="Todo not found")
 
 
-def find_todo(todos: List[Todo], todo_id: int) -> Optional[Todo]:
+def find_todo(todos: list[Todo], todo_id: int) -> Todo | None:
     for todo in todos:
         if todo.id == todo_id:
             return todo
